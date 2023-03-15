@@ -31,6 +31,11 @@ public class ConfigFileReader {
         }
     }
 
+        public String getProperty(String keyWord){
+
+        return properties.getProperty(keyWord);
+    }
+
 
         public long getImplicitlyWait() {
             String implicitlyWait = properties.getProperty("implicitlyWait");

@@ -16,12 +16,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BrowserUtils extends DriverManager {
+public class BrowserUtils   {
 
-    public BrowserUtils(){
-        super();
+    WebDriver driver;
+
+    public BrowserUtils(WebDriver driver){
+        this.driver = driver;
+
     }
-    BrowserUtils bUtils = new BrowserUtils();
+
     /*
      * takes screenshot
      * @param name
@@ -31,7 +34,7 @@ public class BrowserUtils extends DriverManager {
         // name the screenshot with the current date time to avoid duplicate name
         String date = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
         // TakesScreenshot ---> interface from selenium which takes screenshots
-        TakesScreenshot ts = (TakesScreenshot) bUtils.getDriver();
+        TakesScreenshot ts = (TakesScreenshot) driver;
         File source = ts.getScreenshotAs(OutputType.FILE);
         // full path to the screenshot location
         String target = System.getProperty("user.dir") + "/test-output/Screenshots/" + name + date + ".png";
@@ -46,14 +49,14 @@ public class BrowserUtils extends DriverManager {
      * @param targetTitle
      */
     public void switchToWindow(String targetTitle) {
-        String origin = bUtils.getDriver().getWindowHandle();
-        for (String handle : bUtils.getDriver().getWindowHandles()) {
-            bUtils.getDriver().switchTo().window(handle);
-            if (bUtils.getDriver().getTitle().equals(targetTitle)) {
+        String origin = driver.getWindowHandle();
+        for (String handle : driver.getWindowHandles()) {
+            driver.switchTo().window(handle);
+            if (driver.getTitle().equals(targetTitle)) {
                 return;
             }
         }
-        bUtils.getDriver().switchTo().window(origin);
+        driver.switchTo().window(origin);
     }
 
     /**
@@ -62,7 +65,7 @@ public class BrowserUtils extends DriverManager {
      * @param element on which to hover
      */
     public void hover(WebElement element) {
-        Actions actions = new Actions(bUtils.getDriver());
+        Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
 
@@ -88,7 +91,7 @@ public class BrowserUtils extends DriverManager {
      */
     public List<String> getElementsText(By locator) {
 
-        List<WebElement> elems = bUtils.getDriver().findElements(locator);
+        List<WebElement> elems = driver.findElements(locator);
         List<String> elemTexts = new ArrayList<>();
 
         for (WebElement el : elems) {
@@ -118,7 +121,7 @@ public class BrowserUtils extends DriverManager {
      * @return
      */
     public WebElement waitForVisibility(WebElement element, int timeToWaitInSec) {
-        WebDriverWait wait = new WebDriverWait(bUtils.getDriver(), timeToWaitInSec);
+        WebDriverWait wait = new WebDriverWait(driver, timeToWaitInSec);
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -130,7 +133,7 @@ public class BrowserUtils extends DriverManager {
      * @return
      */
     public WebElement waitForVisibility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(bUtils.getDriver(), timeout);
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -142,7 +145,7 @@ public class BrowserUtils extends DriverManager {
      * @return
      */
     public WebElement waitForClickability(WebElement element, int timeout) {
-        WebDriverWait wait = new WebDriverWait(bUtils.getDriver(), timeout);
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
@@ -154,7 +157,7 @@ public class BrowserUtils extends DriverManager {
      * @return
      */
     public WebElement waitForClickablility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(bUtils.getDriver(), timeout);
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
@@ -170,7 +173,7 @@ public class BrowserUtils extends DriverManager {
             }
         };
         try {
-            WebDriverWait wait = new WebDriverWait(bUtils.getDriver(), timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
             wait.until(expectation);
         } catch (Throwable error) {
             error.printStackTrace();
@@ -185,7 +188,7 @@ public class BrowserUtils extends DriverManager {
      */
     public void verifyElementDisplayed(By by) {
         try {
-            Assert.assertTrue("Element not visible: " + by, bUtils.getDriver().findElement(by).isDisplayed());
+            Assert.assertTrue("Element not visible: " + by, driver.findElement(by).isDisplayed());
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             Assert.fail("Element not found: " + by);
@@ -201,7 +204,7 @@ public class BrowserUtils extends DriverManager {
      */
     public void verifyElementNotDisplayed(By by) {
         try {
-            Assert.assertFalse("Element should not be visible: " + by, bUtils.getDriver().findElement(by).isDisplayed());
+            Assert.assertFalse("Element should not be visible: " + by, driver.findElement(by).isDisplayed());
         } catch (NoSuchElementException e) {
             e.printStackTrace();
 
@@ -263,8 +266,8 @@ public class BrowserUtils extends DriverManager {
      * @param element
      */
     public void clickWithJS(WebElement element) {
-        ((JavascriptExecutor) bUtils.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
-        ((JavascriptExecutor) bUtils.getDriver()).executeScript("arguments[0].click();", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 
 
@@ -274,7 +277,7 @@ public class BrowserUtils extends DriverManager {
      * @param element
      */
     public void scrollToElement(WebElement element) {
-        ((JavascriptExecutor) bUtils.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
     /**
@@ -283,7 +286,7 @@ public class BrowserUtils extends DriverManager {
      * @param element
      */
     public void doubleClick(WebElement element) {
-        new Actions(bUtils.getDriver()).doubleClick(element).build().perform();
+        new Actions(driver).doubleClick(element).build().perform();
     }
 
     /**
@@ -294,7 +297,7 @@ public class BrowserUtils extends DriverManager {
      * @param attributeValue
      */
     public void setAttribute(WebElement element, String attributeName, String attributeValue) {
-        ((JavascriptExecutor) bUtils.getDriver()).executeScript("arguments[0].setAttribute(arguments[1], arguments[2]);", element, attributeName, attributeValue);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute(arguments[1], arguments[2]);", element, attributeName, attributeValue);
     }
 
     /**
@@ -302,9 +305,9 @@ public class BrowserUtils extends DriverManager {
      * @param element
      */
     public void highlight(WebElement element) {
-        ((JavascriptExecutor) bUtils.getDriver()).executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
         waitFor(1);
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) ((JavascriptExecutor) bUtils.getDriver()).executeScript("arguments[0].removeAttribute('style', 'background: yellow; border: 2px solid red;');", element);
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) ((JavascriptExecutor) driver).executeScript("arguments[0].removeAttribute('style', 'background: yellow; border: 2px solid red;');", element);
     }
 
     /**
@@ -348,7 +351,7 @@ public class BrowserUtils extends DriverManager {
      * @param element
      */
     public void executeJScommand(WebElement element, String command) {
-        JavascriptExecutor jse = (JavascriptExecutor) bUtils.getDriver();
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript(command, element);
 
     }
@@ -359,7 +362,7 @@ public class BrowserUtils extends DriverManager {
      * @param command
      */
     public void executeJScommand(String command) {
-        JavascriptExecutor jse = (JavascriptExecutor) bUtils.getDriver();
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript(command);
 
     }
@@ -378,7 +381,7 @@ public class BrowserUtils extends DriverManager {
         while (counter < attempts) {
             try {
                 //selenium must look for element again
-                clickWithJS(bUtils.getDriver().findElement(by));
+                clickWithJS(driver.findElement(by));
                 //if click is successful - then break
                 break;
             } catch (WebDriverException e) {
@@ -400,7 +403,7 @@ public class BrowserUtils extends DriverManager {
      * @param time
      */
     public void waitForPresenceOfElement(By by, long time) {
-        new WebDriverWait(bUtils.getDriver(), time).until(ExpectedConditions.presenceOfElementLocated(by));
+        new WebDriverWait(driver, time).until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     public static boolean isFileDownloaded(String downloadPath, String fileName) {

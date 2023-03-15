@@ -5,14 +5,20 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjects.GooglePage;
+import utilities.BrowserUtils;
+
+import java.io.IOException;
 
 public class Google {
     TestContext testContext;
     GooglePage googlepage;
 
+    BrowserUtils browserUtils;
+
     public Google(TestContext context){
         testContext = context;
         googlepage = testContext.getPageObjectManager().getGooglePage();
+        browserUtils = testContext.getPageObjectManager().getBrowserUtils();
     }
 
     @Given("I navigate to Google search page")
@@ -25,8 +31,9 @@ public class Google {
         googlepage.pageTitle();
     }
     @Then("I have page title assertion")
-    public void i_have_page_title_assertion() {
+    public void i_have_page_title_assertion() throws IOException {
         googlepage.pageTitleValidation();
+        browserUtils.getScreenshot("googleTest");
     }
 
 }
