@@ -1,6 +1,5 @@
 package utilities;
 
-import managers.DriverManager;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.*;
