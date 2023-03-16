@@ -4,17 +4,13 @@ import dataProvider.ConfigFileReader;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ExcelUtil extends ConfigFileReader{
 
@@ -35,8 +31,9 @@ public class ExcelUtil extends ConfigFileReader{
             workBook = WorkbookFactory.create(ExcelFile);
             workSheet = workBook.getSheet(sheetName);
             // check if sheet is null or not. null means  sheet name was wrong
-            Assert.assertNotNull(String.valueOf(workSheet), "Sheet: \""+sheetName+"\" does not exist\n");
-
+            //Assert.assertNotNull(String.valueOf(workSheet), "Sheet: \""+sheetName+"\" does not exist\n");
+            Optional<String> sheet = Optional.ofNullable(String.valueOf(workSheet));
+            sheet.orElseThrow(() ->new AssertionError("Sheet: " + sheetName + " does not exist"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
