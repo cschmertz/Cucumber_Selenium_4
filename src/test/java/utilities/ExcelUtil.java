@@ -2,7 +2,10 @@ package utilities;
 
 import dataProvider.ConfigFileReader;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
+import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +24,63 @@ public class ExcelUtil extends ConfigFileReader{
 
     public ExcelUtil(){
         super();
+    }
+
+    public ExcelUtil(String path, String sheetName) {
+        this.path = path;
+        try {
+            // Open the Excel file
+            FileInputStream ExcelFile = new FileInputStream(path);
+            // Access the required test data sheet
+            workBook = WorkbookFactory.create(ExcelFile);
+            workSheet = workBook.getSheet(sheetName);
+            // check if sheet is null or not. null means  sheet name was wrong
+            Assert.assertNotNull(String.valueOf(workSheet), "Sheet: \""+sheetName+"\" does not exist\n");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeTableToExcel(Object[][] data, String filePath) throws Exception {
+        // create a new workbook and sheet
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Sheet1");
+
+        // write data to cells
+        for (int i = 0; i < data.length; i++) {
+            Row row = sheet.createRow(i);
+            for (int j = 0; j < data[i].length; j++) {
+                Cell cell = row.createCell(j);
+                cell.setCellValue(data[i][j].toString());
+            }
+        }
+
+        // write workbook to file
+        FileOutputStream outputStream = new FileOutputStream(filePath);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+
+    }
+
+        public void writeElementsToExcel(List<WebElement> elements, String filePath) throws Exception {
+        // create a new workbook and sheet
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Sheet1");
+
+        // write element text to cells
+        for (int i = 0; i < elements.size(); i++) {
+            Row row = sheet.createRow(i);
+            Cell cell = row.createCell(0);
+            cell.setCellValue(elements.get(i).getText());
+        }
+
+        // write workbook to file
+        FileOutputStream outputStream = new FileOutputStream(filePath);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
     }
 
 
@@ -101,21 +161,7 @@ public class ExcelUtil extends ConfigFileReader{
 
     }
 
-    public ExcelUtil(String path, String sheetName) {
-        this.path = path;
-        try {
-            // Open the Excel file
-            FileInputStream ExcelFile = new FileInputStream(path);
-            // Access the required test data sheet
-            workBook = WorkbookFactory.create(ExcelFile);
-            workSheet = workBook.getSheet(sheetName);
-            // check if sheet is null or not. null means  sheet name was wrong
-            Assert.assertNotNull(String.valueOf(workSheet), "Sheet: \""+sheetName+"\" does not exist\n");
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public String getCellData(int rowNum, int colNum) {
         Cell cell;
