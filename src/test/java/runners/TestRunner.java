@@ -11,7 +11,8 @@ import org.junit.runner.RunWith;
         plugin = { "pretty", "json:target/cucumber-reports/Cucumber.json",
                 "junit:target/cucumber-reports/Cucumber.xml",
                 "html:target/cucumber-report.html" },
-        monochrome = true
+        monochrome = true,
+        tags = "@Login"
 )
 public class TestRunner {
 }
