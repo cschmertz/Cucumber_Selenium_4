@@ -5,12 +5,18 @@ import enums.EnvironmentType;
 import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class DriverManager {
@@ -46,12 +52,36 @@ public class DriverManager {
     }
 
     private WebDriver createRemoteDriver() {
-        throw new RuntimeException("RemoteWebDriver is not yet implemented");
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        desiredCapabilities.setJavascriptEnabled(true);
+        desiredCapabilities.setCapability("platform", Platform.ANY);
+
+        switch (driverType) {
+            case REMOTECHROME:
+                desiredCapabilities.setBrowserName(BrowserType.CHROME);
+                break;
+            case REMOTEFIREFOX:
+                desiredCapabilities.setBrowserName(BrowserType.FIREFOX);
+                desiredCapabilities.setCapability("marionette", true);
+                break;
+            default:
+                throw new RuntimeException("Invalid driver type");
+        }
+
+        try {
+            return new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), desiredCapabilities);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Invalid URL for remote webdriver", e);
+        }
     }
+
 
     private WebDriver createLocalDriver() {
         switch (driverType) {
-            case FIREFOX : driver = new FirefoxDriver();
+
+            case FIREFOX :
+                WebDriverManager.firefoxdriver().setup();
+                driver= new FirefoxDriver();
                 break;
             case CHROME :
                 WebDriverManager.chromedriver().setup();
@@ -66,7 +96,7 @@ public class DriverManager {
         return driver;
     }
     public void closeDriver() {
-        driver.close();
+
         driver.quit();
     }
 

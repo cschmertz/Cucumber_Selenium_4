@@ -3,13 +3,15 @@ package cucumber;
 import managers.PageObjectManager;
 import managers.DriverManager;
 
+import java.net.MalformedURLException;
+
 public class TestContext {
 
     private DriverManager driverManager;
     private PageObjectManager pageObjectManager;
     ScenarioContext scenarioContext;
 
-    public TestContext(){
+    public TestContext() {
         driverManager = new DriverManager();
         pageObjectManager = new PageObjectManager(driverManager.getDriver());
         scenarioContext = new ScenarioContext();

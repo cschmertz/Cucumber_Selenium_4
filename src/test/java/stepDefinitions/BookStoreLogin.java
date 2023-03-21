@@ -37,8 +37,10 @@ public class BookStoreLogin {
 
     @Then("I should be logged in")
     public void iShouldBeLoggedIn() throws IOException {
+        browserUtils.waitForVisibility(loginPage.UserNameLabel,10);
         loginPage.assertLoginUserNamelabel();
         browserUtils.getScreenshot("bookstore dashboard");
+        browserUtils.scrollToElement(loginPage.logOutButton);
         loginPage.logOut();
     }
 }

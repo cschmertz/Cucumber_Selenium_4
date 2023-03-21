@@ -37,7 +37,7 @@ public class ConfigFileReader {
     }
 
 
-        public long getImplicitlyWait() {
+    public long getImplicitlyWait() {
             String implicitlyWait = properties.getProperty("implicitlyWait");
             if(implicitlyWait != null) return Long.parseLong(implicitlyWait);
             else throw new RuntimeException("implicitlyWait not specified in the Configuration.properties file.");
@@ -52,8 +52,10 @@ public class ConfigFileReader {
     public DriverType getBrowser() {
         String browserName = properties.getProperty("browser");
         if(browserName == null || browserName.equals("chrome")) return DriverType.CHROME;
-        else if(browserName.equalsIgnoreCase("firefox")) return DriverType.FIREFOX;
+        else if(browserName.equals("firefox")) return DriverType.FIREFOX;
         else if(browserName.equals("iexplorer")) return DriverType.INTERNETEXPLORER;
+        else if(browserName.equals("remote_chrome")) return DriverType.REMOTECHROME;
+        else if(browserName.equals("remote_firefox")) return DriverType.REMOTEFIREFOX;
         else throw new RuntimeException("Browser Name Key value in Configuration.properties is not matched : " + browserName);
     }
 

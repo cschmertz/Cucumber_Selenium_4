@@ -34,6 +34,7 @@ public class Google {
     public void i_have_page_title_assertion() throws IOException {
         googlepage.pageTitleValidation();
         browserUtils.getScreenshot("googleTest");
+
     }
 
 }

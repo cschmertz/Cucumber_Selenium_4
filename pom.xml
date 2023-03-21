@@ -13,6 +13,26 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>grid</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <webdriver.remote.driver>http://localhost:4444/wd/hub</webdriver.remote.driver>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
 
     <build>
         <plugins>
@@ -32,7 +52,7 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <includes>
-                        <include>**/*testRunner*.java</include>
+                        <include>**/*TestRunner*.java</include>
 
                     </includes>
                     <parallel>methods</parallel>
@@ -111,6 +131,9 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
+
+
+
 
 
 
