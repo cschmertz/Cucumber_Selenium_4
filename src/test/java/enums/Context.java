@@ -1,5 +1,19 @@
 package enums;
 
 public enum Context {
-    PRODUCT_NAME,
+    ISBN,
+
+    TITLE,
+
+    SUB_TITLE,
+
+    AUTHOR,
+
+    PUBLISHER,
+
+    PAGES,
+
+    DESCRIPTION,
+
+    WEBSITE,
 }

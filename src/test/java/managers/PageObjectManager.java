@@ -2,6 +2,7 @@ package managers;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
+import pageObjects.BookStorePage;
 import pageObjects.GooglePage;
 import pageObjects.LoginPage;
 import stepDefinitions.BookStoreLogin;
@@ -14,6 +15,13 @@ public class PageObjectManager {
     private GooglePage googlePage;
 
     private LoginPage loginPage;
+
+    private BookStorePage bookStorePage;
+
+    public BookStorePage getBookStorePage() {
+        return (bookStorePage == null) ? bookStorePage = new BookStorePage(driver) : bookStorePage;
+    }
+
     public PageObjectManager(WebDriver driver) {
                 this.driver = driver;
     }
