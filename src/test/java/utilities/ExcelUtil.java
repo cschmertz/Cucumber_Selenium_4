@@ -58,10 +58,10 @@ public class ExcelUtil extends ConfigFileReader{
         workbook.write(outputStream);
         workbook.close();
         outputStream.close();
-
     }
 
-        public void writeElementsToExcel(List<WebElement> elements, String filePath) throws Exception {
+
+    public void writeElementsToExcel(List<WebElement> elements, String filePath) throws Exception {
         // create a new workbook and sheet
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Sheet1");
@@ -171,6 +171,126 @@ public class ExcelUtil extends ConfigFileReader{
         }
     }
 
+
+    public List<Object> getRowData(int rowNum) {
+        List<Object> rowData = new ArrayList<>();
+        Row row = workSheet.getRow(rowNum);
+
+        if (row != null) {
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        rowData.add(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        rowData.add(cell.getNumericCellValue());
+                        break;
+                    case BOOLEAN:
+                        rowData.add(cell.getBooleanCellValue());
+                        break;
+                    default:
+                        rowData.add(null);
+                        break;
+                }
+            }
+        }
+
+        return rowData;
+    }
+
+    public void printRowData(int rowNum) {
+        Row row = workSheet.getRow(rowNum);
+
+        if (row != null) {
+            int cellCount = row.getLastCellNum();
+            int currentCell = 0;
+
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        System.out.print(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        System.out.print(cell.getNumericCellValue());
+                        break;
+                    case BOOLEAN:
+                        System.out.print(cell.getBooleanCellValue());
+                        break;
+                    default:
+                        System.out.print("");
+                        break;
+                }
+
+                currentCell++;
+                if (currentCell < cellCount) {
+                    System.out.print(",");
+                }
+            }
+
+            System.out.println(); // print new line after row data
+        }
+
+    }
+
+    public String getRowDataWithoutCommas(int rowNum) {
+        Row row = workSheet.getRow(rowNum);
+        StringBuilder rowData = new StringBuilder();
+
+        if (row != null) {
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        rowData.append(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        rowData.append(cell.getNumericCellValue());
+                        break;
+                    case BOOLEAN:
+                        rowData.append(cell.getBooleanCellValue());
+                        break;
+                    default:
+                        rowData.append("");
+                        break;
+                }
+                rowData.append(" "); // add space between cell values
+            }
+            rowData.deleteCharAt(rowData.length() - 1); // remove last space character
+        }
+
+        return rowData.toString();
+    }
+
+    public String getRowDataWithCellDataOnNewLine(int rowNum) {
+        Row row = workSheet.getRow(rowNum);
+        StringBuilder rowData = new StringBuilder();
+
+        if (row != null) {
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        rowData.append(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        rowData.append(cell.getNumericCellValue());
+                        break;
+                    case BOOLEAN:
+                        rowData.append(cell.getBooleanCellValue());
+                        break;
+                    default:
+                        rowData.append("");
+                        break;
+                }
+                rowData.append("\n"); // add new line after each cell value
+            }
+            rowData.deleteCharAt(rowData.length() - 1); // remove last new line character
+        }
+
+        return rowData.toString();
+    }
+
+
+
+
     public String[][] getDataArray() {
 
         String[][] data = new String[rowCount()][columnCount()];
@@ -185,7 +305,7 @@ public class ExcelUtil extends ConfigFileReader{
 
     }
 
-    //this method will return data table as 2d array
+    //this method will return data table as 2d array,
     //so we need this format because of data provider.
     public String[][] getDataArrayWithoutFirstRow() {
 
@@ -237,7 +357,7 @@ public class ExcelUtil extends ConfigFileReader{
 
         List<String> tableData = new ArrayList<>();
 
-        for (int i = 1; i < rowCount(); i++) {
+        for (int i = 0; i < rowCount(); i++) {
             Row row = workSheet.getRow(i);
             for (Cell cell : row) {
                 tableData.add(cell.toString());

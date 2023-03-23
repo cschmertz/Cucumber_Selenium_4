@@ -3,9 +3,9 @@ package pojo;
 import java.io.Serializable;
 import java.util.List;
 
-public class BookBean implements Serializable {
+public class Book implements Serializable {
 
-    public List<BookBean> books;
+    public List<Book> books;
     private String isbn;
     private String title;
     private String subTitle;
@@ -19,23 +19,23 @@ public class BookBean implements Serializable {
     @Override
     public String toString() {
         return "BOOK{" + '\n' +
-                "  isbn=" + isbn + '\n' +
-                "  title=" + title + '\n' +
-                "  subTitle=" + subTitle + '\n' +
-                "  author=" + author + '\n' +
-                "  publish_date=" + publish_date + '\n' +
-                "  publisher=" + publisher + '\n' +
-                "  pages=" + pages + '\n' +
-                "  description=" + description + '\n' +
-                "  website=" + website + '\n' +
+                "  isbn : " + isbn + '\n' +
+                "  title : " + title + '\n' +
+                "  subTitle : " + subTitle + '\n' +
+                "  author : " + author + '\n' +
+                "  publish date : " + publish_date + '\n' +
+                "  publisher : " + publisher + '\n' +
+                "  pages : " + pages + '\n' +
+                "  description : " + description + '\n' +
+                "  website : " + website + '\n' +
                 '}';
     }
 
-    public BookBean(){
+    public Book(){
 
     }
 
-    public BookBean(String isbn, String title, String subTitle, String author, String publish_date, String publisher, int pages, String description, String website) {
+    public Book(String isbn, String title, String subTitle, String author, String publish_date, String publisher, int pages, String description, String website) {
         this.isbn = isbn;
         this.title = title;
         this.subTitle = subTitle;

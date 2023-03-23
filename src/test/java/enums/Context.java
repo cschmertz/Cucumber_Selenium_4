@@ -1,6 +1,9 @@
 package enums;
 
 public enum Context {
+
+    BOOK,
+
     ISBN,
 
     TITLE,
