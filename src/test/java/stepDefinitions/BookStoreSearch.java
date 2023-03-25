@@ -14,7 +14,6 @@ import utilities.BrowserUtils;
 import utilities.ExcelUtil;
 
 import java.util.List;
-import java.util.Map;
 
 public class BookStoreSearch {
 
@@ -32,7 +31,7 @@ public class BookStoreSearch {
         browserUtils = testContext.getPageObjectManager().getBrowserUtils();
     }
     @When("I enter bookstore")
-    public void iEnterBookstore() throws Exception {
+    public void iEnterBookstore() {
         browserUtils.clickWithJS(bookStorePage.bookStoreButton);
 
 
@@ -44,7 +43,7 @@ public class BookStoreSearch {
     }
 
     @Then("I should see that book in the search results")
-    public void iShouldSeeThatBookInTheSearchResults() throws Exception {
+    public void iShouldSeeThatBookInTheSearchResults() {
         //Asserting the actual vs expected data from an Excel file(expected) and the Web element(actual)
         //First method of extracting data from the Web element is a List
 
@@ -79,35 +78,36 @@ public class BookStoreSearch {
         Assert.assertEquals(actualIsbnData,expectedIsbnData);
 
 
-//        //Setting the value of Web element from the Book bean and pairing it with the ENUM
-//        testContext.getScenarioContext().setContext(Context.ISBN,GitPocketGuideBook.getIsbn());
-//        //Printing out the result of calling the getContext method which retrieves the Key(ENUM) and it's value
-//        System.out.println(testContext.getScenarioContext().getContext(Context.ISBN));
-//        //Assertion comparing the two results
-//        Assert.assertEquals(GitPocketGuideBook.getIsbn(),testContext.getScenarioContext().getContext(Context.ISBN));
+        //Setting the value of Web element from the Book bean and pairing it with the ENUM
+        testContext.getScenarioContext().setContext(Context.ISBN,GitPocketGuideBook.getIsbn());
+        //Printing out the result of calling the getContext method which retrieves the Key(ENUM) and it's value
+        System.out.println(testContext.getScenarioContext().getContext(Context.ISBN));
+        //Assertion comparing the two results
+        Assert.assertEquals(GitPocketGuideBook.getIsbn(),testContext.getScenarioContext().getContext(Context.ISBN));
 
 
         //Here we are doing the same thing as above, comparing actual vs expected, but instead we use the
-//        //Scenario Context class that provides us with a HashMap in which to set and retrieve our data
-//
-//        //Web element containing list of elements
-//        WebElement GitPocketGuideWrapper = bookStorePage.GitPocketGuideList;
-//        //Finding and storing those elements into a list of Web elements
-//        List<WebElement> GitPocketGuideListOfBook = GitPocketGuideWrapper.findElements(By.id("userName-value"));
-//        //Converting list of elements to list of String
-//        List<String> convertedList = browserUtils.getElementsText(GitPocketGuideListOfBook);
-//        //Setting the HashMap to take the elements from list of String
-//        testContext.getScenarioContext().setContext(Context.BOOK,convertedList);
-//        //Printing the results
-//        System.out.println(testContext.getScenarioContext().getContext(Context.BOOK));
-//
-//        WebElement isbn = bookStorePage.gitPocketGuideISBN;
-//
-//        testContext.getScenarioContext().setContext(Context.ISBN,isbn);
-//
-//        String actualISBN = (String) testContext.getScenarioContext().getContext(Context.ISBN);
-//
-//        String expectedISBN = excelUtil.getRowDataWithCellDataOnNewLine(0);
+        //Scenario Context class that provides us with a HashMap in which to set and retrieve our data
+
+        //Web element containing list of elements
+        WebElement GitPocketGuideWrapper = bookStorePage.GitPocketGuideList;
+        //Finding and storing those elements into a list of Web elements
+        List<WebElement> GitPocketGuideListOfBook = GitPocketGuideWrapper.findElements(By.id("userName-value"));
+        //Converting list of elements to list of String
+        List<String> convertedList = browserUtils.getElementsText(GitPocketGuideListOfBook);
+        //Setting the HashMap to take the elements from list of String
+        testContext.getScenarioContext().setContext(Context.BOOK,convertedList);
+        //Printing the results
+        System.out.println(testContext.getScenarioContext().getContext(Context.BOOK));
+
+        //Setting the String result of the Web element to the Context-Key ISBN
+        testContext.getScenarioContext().setContext(Context.ISBN,bookStorePage.gitPocketGuideISBN.getText());
+        //get Context key is Object, but returns the Context-Key to String
+        Object actualISBN = testContext.getScenarioContext().getContext(Context.ISBN);
+        //Data from Excel file
+        String expectedISBN = excelUtil.getRowDataWithCellDataOnNewLine(0);
+        //Comparing two values
+        Assert.assertEquals(actualISBN,expectedISBN);
 
 
 

@@ -21,7 +21,7 @@ public class BookStorePage {
     @FindBy(css = "button[id='gotoStore']")
     public WebElement bookStoreButton;
 
-    @FindBy(css = "div[class='profile-wrapper']")
+    @FindBy(css = "div[class='rt-tbody']")
     public WebElement GitPocketGuideList;
 
     @FindBy(css = "div[class='rt-table']")
@@ -63,6 +63,12 @@ public class BookStorePage {
         gitPocketGuideBook.click();
     }
 
+    public void pageTitle(){
+        String pageTitle = driver.getTitle();
+        System.out.println(pageTitle);
+    }
+
+
 
 
     Object [] [] GitPocketGuideData = new Object[8][2];
@@ -88,6 +94,34 @@ public class BookStorePage {
         GitPocketGuideData[7][1] = "http://chimera.labs.oreilly.com/books/1230000000561/index.html";
 
         excelUtil.writeTableToExcel(GitPocketGuideData,filePath);
+    }
+
+
+    Object [] [] Data = new Object[8][2];
+
+    String filePath1 = "src/test/resources/DataFiles/ListOfBooks.xlsx";
+
+    public void dataTableOfBookTitles() throws Exception {
+
+        Data[0][0] = "Git Pocket Guide";
+        Data[0][1] = "https://demoqa.com/images/bookimage0.jpg";
+        Data[1][0] = "Learning JavaScript Design Patterns";
+        Data[1][1] = "https://demoqa.com/images/bookimage1.jpg";
+        Data[2][0] = "Designing Evolvable Web APIs with ASP.NET";
+        Data[2][1] = "https://demoqa.com/images/bookimage2.jpg";
+        Data[3][0] = "Speaking JavaScript";
+        Data[3][1] = "https://demoqa.com/images/bookimage3.jpg";
+        Data[4][0] = "You Don't Know JS";
+        Data[4][1] = "https://demoqa.com/images/bookimage0.jpg";
+        Data[5][0] = "Programming JavaScript Applications";
+        Data[5][1] = "https://demoqa.com/images/bookimage1.jpg";
+        Data[6][0] = "Eloquent JavaScript, Second Edition";
+        Data[6][1] = "https://demoqa.com/images/bookimage2.jpg";
+        Data[7][0] = "Understanding ECMAScript 6";
+        Data[7][1] = "https://demoqa.com/images/bookimage3.jpg";
+
+        excelUtil.writeTableToExcel(Data,filePath1);
+
     }
 
 
