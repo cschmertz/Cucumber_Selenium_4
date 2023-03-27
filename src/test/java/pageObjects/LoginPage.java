@@ -18,13 +18,8 @@ public class LoginPage {
         this.driver = driver;
         PageFactory.initElements(driver,this);
     }
-
-
-
-
     @FindBy(css = "input[placeholder='UserName']")
     public WebElement userName;
-
     @FindBy(css = "input[placeholder='Password']")
     public WebElement password;
     @FindBy(css = "button[id='login']")

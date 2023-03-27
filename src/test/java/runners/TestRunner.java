@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
                 "junit:target/cucumber-reports/Cucumber.xml",
                 "html:target/cucumber-report.html" },
         monochrome = true,
-        tags = "@BookList"
+        tags = "@Login"
 )
 public class TestRunner {
 }
