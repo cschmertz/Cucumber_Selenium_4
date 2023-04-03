@@ -42,6 +42,6 @@ public class BookStoreLogin {
         browserUtils.getScreenshot("bookstore dashboard");
         browserUtils.scrollToElement(loginPage.logOutButton);
         loginPage.logOut();
-        System.out.println("Test successfully completed");
+        System.out.println("Test passed");
     }
 }
