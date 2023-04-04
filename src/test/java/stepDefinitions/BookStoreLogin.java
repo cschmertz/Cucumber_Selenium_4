@@ -43,5 +43,6 @@ public class BookStoreLogin {
         browserUtils.scrollToElement(loginPage.logOutButton);
         loginPage.logOut();
         System.out.println("Test passed");
+        System.out.println("let's try again");
     }
 }
