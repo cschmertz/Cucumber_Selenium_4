@@ -42,7 +42,5 @@ public class BookStoreLogin {
         browserUtils.getScreenshot("bookstore dashboard");
         browserUtils.scrollToElement(loginPage.logOutButton);
         loginPage.logOut();
-        System.out.println("checking webhook");
-        System.out.println("webhook successfully passed");
     }
 }
