@@ -43,6 +43,6 @@ public class BookStoreLogin {
         browserUtils.scrollToElement(loginPage.logOutButton);
         loginPage.logOut();
         System.out.println("checking webhook");
-        System.out.println("webhook success");
+        System.out.println("webhook successfully passed");
     }
 }
