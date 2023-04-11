@@ -3,10 +3,14 @@ package pageObjects;
 import cucumber.TestContext;
 import managers.FileReaderManager;
 import org.junit.Assert;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.Date;
+import java.util.Set;
 
 public class LoginPage {
 
@@ -43,7 +47,7 @@ public class LoginPage {
         password.sendKeys(FileReaderManager.getInstance().getConfigReader().getProperty("password"));
     }
 
-    public void assertLoginUserNamelabel(){
+    public void assertLoginUserNameLabel(){
         String actualUsernameLabel = UserNameLabel.getText();
         String expectedUserNameLabel = "UserUser123";
 
@@ -53,6 +57,46 @@ public class LoginPage {
     public void logOut(){
         logOutButton.click();
     }
+
+    public void checkCookies() {
+        // Get the current URL
+        String currentUrl = driver.getCurrentUrl();
+
+        // Get all the cookies from the current page
+        Set<Cookie> cookies = driver.manage().getCookies();
+
+        // Check if cookies are present
+        if (cookies.isEmpty()) {
+            System.out.println("No cookies found on the current page: " + currentUrl);
+        } else {
+            System.out.println("Cookies found on the current page: " + currentUrl);
+            for (Cookie cookie : cookies) {
+                System.out.println("Name: " + cookie.getName() + ", Value: " + cookie.getValue());
+            }
+        }
+    }
+
+    public void addCookie(String name, String value, String domain, String path, int expiry) {
+        Cookie cookie = new Cookie(name, value, domain, path, new Date(System.currentTimeMillis() + (expiry * 1000)));
+        driver.manage().addCookie(cookie);
+    }
+
+    public Cookie getCookieNamed(String name) {
+        Set<Cookie> cookies = driver.manage().getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(name)) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+
+    public void deleteCookieNamed(String name) {
+        driver.manage().deleteCookieNamed(name);
+    }
+
+
+
 
 
 }

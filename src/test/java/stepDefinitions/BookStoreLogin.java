@@ -25,21 +25,20 @@ public class BookStoreLogin {
     @Given("I am on bookstore login page")
     public void iAmOnBookstoreLoginPage() {
         loginPage.NavigateToBookStoreHomePage();
+        loginPage.checkCookies();
     }
 
     @When("I enter credentials")
     public void iEnterCredentials() throws IOException {
         loginPage.loginPositive();
         browserUtils.clickWithJS(loginPage.loginButton);
-        browserUtils.getScreenshot("login page");
         loginPage.pageTitle();
     }
 
     @Then("I should be logged in")
     public void iShouldBeLoggedIn() throws IOException {
         browserUtils.waitForVisibility(loginPage.UserNameLabel,10);
-        loginPage.assertLoginUserNamelabel();
-        browserUtils.getScreenshot("bookstore dashboard");
+        loginPage.assertLoginUserNameLabel();
         browserUtils.scrollToElement(loginPage.logOutButton);
         loginPage.logOut();
     }
