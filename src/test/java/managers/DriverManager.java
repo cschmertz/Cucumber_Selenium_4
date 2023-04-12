@@ -1,5 +1,7 @@
 package managers;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import enums.DriverType;
 import enums.EnvironmentType;
 import io.cucumber.java.Scenario;
@@ -34,6 +36,9 @@ public class DriverManager {
 
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot, "image/png", scenario.getName());
+        ExtentTest extentTest = ExtentCucumberAdapter.getCurrentStep();
+        String screenshotPath = "/Users/riazahmed/IdeaProjects/Cucumber_Selenium/target/ExtentReport/Screenshots/embedded1.png";
+        extentTest.addScreenCaptureFromPath(screenshotPath);
     }
 
     public WebDriver getDriver() {
