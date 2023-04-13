@@ -1,5 +1,7 @@
 package stepDefinitions;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import cucumber.TestContext;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
@@ -31,6 +33,9 @@ public class Hooks {
     public void addScreenshot(Scenario scenario){
 
         testContext.getWebDriverManager().getScreenShot(scenario);
+        ExtentTest extentTest = ExtentCucumberAdapter.getCurrentStep();
+        String screenshotPath = "/Users/riazahmed/IdeaProjects/Cucumber_Selenium/target/ExtentReport/Screenshots.png";
+        extentTest.addScreenCaptureFromPath(screenshotPath);
 
     }
 
