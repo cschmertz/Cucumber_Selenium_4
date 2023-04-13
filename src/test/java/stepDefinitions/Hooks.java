@@ -34,7 +34,7 @@ public class Hooks {
 
         testContext.getWebDriverManager().getScreenShot(scenario);
         ExtentTest extentTest = ExtentCucumberAdapter.getCurrentStep();
-        String screenshotPath = "/Users/riazahmed/IdeaProjects/Cucumber_Selenium/target/ExtentReport/Screenshots.png";
+        String screenshotPath = "/Users/riazahmed/IdeaProjects/Cucumber_Selenium/target/ExtentReport/Screenshots/";
         extentTest.addScreenCaptureFromPath(screenshotPath);
 
     }
