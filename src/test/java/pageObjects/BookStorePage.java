@@ -33,6 +33,9 @@ public class BookStorePage {
     @FindBy(css = "span[id='see-book-Git Pocket Guide']")
     public WebElement gitPocketGuideBook;
 
+    @FindBy(css = "div[class='profile-wrapper']")
+    public WebElement GitPocketGuideWrapper;
+
     @FindBy(css = "div[id='ISBN-wrapper']")
     public WebElement gitPocketGuideISBN;
 

@@ -48,7 +48,7 @@ public class BookStoreSearch {
         //First method of extracting data from the Web element is a List
 
         //Web element containing list of elements
-        WebElement GitPocketGuide = bookStorePage.GitPocketGuideList;
+        WebElement GitPocketGuide = bookStorePage.GitPocketGuideWrapper;
         //Finding and storing those elements into a list of Web elements
         List<WebElement> GitPocketGuideList = GitPocketGuide.findElements(By.id("userName-value"));
         //Converting the list of Web elements into a list of String
@@ -90,7 +90,7 @@ public class BookStoreSearch {
         //Scenario Context class that provides us with a HashMap in which to set and retrieve our data
 
         //Web element containing list of elements
-        WebElement GitPocketGuideWrapper = bookStorePage.GitPocketGuideList;
+        WebElement GitPocketGuideWrapper = bookStorePage.GitPocketGuideWrapper;
         //Finding and storing those elements into a list of Web elements
         List<WebElement> GitPocketGuideListOfBook = GitPocketGuideWrapper.findElements(By.id("userName-value"));
         //Converting list of elements to list of String
