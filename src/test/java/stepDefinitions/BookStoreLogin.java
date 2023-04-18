@@ -41,5 +41,6 @@ public class BookStoreLogin {
         loginPage.assertLoginUserNameLabel();
         browserUtils.scrollToElement(loginPage.logOutButton);
         loginPage.logOut();
+        System.out.println("Test Passed");
     }
 }
