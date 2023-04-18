@@ -1,6 +1,6 @@
 Feature: I should be able to login to the bookstore
 
-  @Login
+  @Login @Regression
   Scenario: I should be able to login to bookstore with positive credentials
     Given I am on bookstore login page
     When I enter credentials

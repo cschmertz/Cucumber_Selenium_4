@@ -14,30 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>grid</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/*TestRunner*.java</include>
-                            </includes>
-                            <parallel>classesAndMethods</parallel>
-                            <useUnlimitedThreads>true</useUnlimitedThreads>
-                            <systemPropertyVariables>
-                                <webdriver.remote.driver>http://localhost:4444/wd/hub</webdriver.remote.driver>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
