@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
                 "junit:target/cucumber-reports/Cucumber.xml",
                 "html:target/cucumber-report.html",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
-        monochrome = true,
-        tags = "@BookSearch"
+        monochrome = true
+        //tags = "@BookSearch"
 )
 public class TestRunner {
 }
