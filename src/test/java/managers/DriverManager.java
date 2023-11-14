@@ -9,6 +9,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
@@ -60,6 +61,7 @@ public class DriverManager {
         switch (driverType) {
             case REMOTECHROME:
                 desiredCapabilities.setBrowserName(BrowserType.CHROME);
+//                desiredCapabilities.setCapability("chromeOptions", createChromeOptions(true));
                 break;
             case REMOTEFIREFOX:
                 desiredCapabilities.setBrowserName(BrowserType.FIREFOX);
@@ -76,6 +78,14 @@ public class DriverManager {
         }
     }
 
+//    private ChromeOptions createChromeOptions(boolean headless) {
+//        ChromeOptions options = new ChromeOptions();
+//        if (headless) {
+//            options.addArguments("--headless"); // Set Chrome to run in headless mode
+//        }
+//        // You can add more Chrome options here if needed
+//        return options;
+//    }
 
     private WebDriver createLocalDriver() {
         switch (driverType) {

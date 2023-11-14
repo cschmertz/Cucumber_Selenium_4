@@ -1,11 +1,17 @@
 package pageObjects;
 
+import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utilities.BrowserUtils;
 import utilities.ExcelUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookStorePage {
 
@@ -22,7 +28,7 @@ public class BookStorePage {
     public WebElement bookStoreButton;
 
     @FindBy(css = "div[class='rt-tbody']")
-    public WebElement GitPocketGuideList;
+    public WebElement bookTableBody;
 
     @FindBy(css = "div[class='rt-table']")
     public WebElement tableOfBooks;
@@ -61,6 +67,9 @@ public class BookStorePage {
     public WebElement gitPocketGuideWebsite;
 
 
+
+
+
     public void bookSearch(){
         bookStorePageSearchBox.sendKeys("Git Pocket Guide", Keys.ENTER);
         gitPocketGuideBook.click();
@@ -69,6 +78,35 @@ public class BookStorePage {
     public void pageTitle(){
         String pageTitle = driver.getTitle();
         System.out.println(pageTitle);
+    }
+
+    public void assertBookFilter(){
+        List<WebElement> bookResults = tableOfBooks.findElements(By.className("action-buttons"));
+        List<String> actual = BrowserUtils.getElementsText(bookResults);
+        String expected = "Git Pocket Guide";
+        Assert.assertTrue(actual.contains(expected));
+    }
+
+    public void assertBookSelection(){
+        //Web element containing list of elements
+        WebElement GitPocketGuide = GitPocketGuideWrapper;
+        //Finding and storing those elements into a list of Web elements
+        List<WebElement> GitPocketGuideList = GitPocketGuide.findElements(By.id("userName-value"));
+        //Converting the list of Web elements into a list of String
+        List<String> actual = BrowserUtils.getElementsText(GitPocketGuideList);
+        List<String> expected = new ArrayList<>();
+        expected.add("9781449325862");
+        expected.add("Git Pocket Guide, A Working Introduction");
+        expected.add("Richard E. Silverman, O'Reilly Media");
+        expected.add("234");
+        expected.add("This pocket guide is the perfect on-the-job companion to Git, the distributed version control system. It provides a compact, readable introduction to Git for new users, as well as a reference to common commands and procedures for those of you with Git exp");
+        expected.add("http://chimera.labs.oreilly.com/books/1230000000561/index.html");
+
+        //Printing the results
+        System.out.println(actual);
+        System.out.println(expected);
+
+        Assert.assertEquals(actual.toString(),expected.toString());
     }
 
 

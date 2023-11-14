@@ -3,6 +3,7 @@ package stepDefinitions;
 import cucumber.TestContext;
 import enums.Context;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -108,12 +109,30 @@ public class BookStoreSearch {
         String expectedISBN = excelUtil.getRowDataWithCellDataOnNewLine(0);
         //Comparing two values
         Assert.assertEquals(actualISBN,expectedISBN);
-
-
-
-
-
-
-
     }
+
+    @Given("I am in the bookstore")
+    public void i_am_in_the_bookstore() {
+        bookStorePage.bookStoreButton.click();
+    }
+
+    @When("I select a book")
+    public void i_select_a_book() {
+        bookStorePage.gitPocketGuideBook.click();
+    }
+
+    @Then("I am provided details regarding that book")
+    public void i_am_provided_details_regarding_that_book() {
+        bookStorePage.assertBookSelection();
+    }
+
+    @When("I enter keys into the search bar")
+    public void i_enter_keys_into_the_search_bar() {
+        bookStorePage.bookStorePageSearchBox.sendKeys("gi");
+    }
+    @Then("the book selection should dynamically filter")
+    public void the_book_selection_should_dynamically_filter() {
+        bookStorePage.assertBookFilter();
+    }
+
 }

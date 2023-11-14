@@ -1,3 +1,4 @@
+@parallel
 Feature: I should be able to search for a book using search box
 
   Background: I am already logged in

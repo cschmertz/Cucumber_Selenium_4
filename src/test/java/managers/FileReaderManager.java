@@ -3,7 +3,7 @@ import dataProvider.ConfigFileReader;
 public class FileReaderManager {
 
     private static FileReaderManager fileReaderManager = new FileReaderManager();
-    private static ConfigFileReader configFileReader;
+    private static ConfigFileReader configFileReader = new ConfigFileReader();
 
     private FileReaderManager() {
     }

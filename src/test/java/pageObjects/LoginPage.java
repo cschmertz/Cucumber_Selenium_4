@@ -2,12 +2,14 @@ package pageObjects;
 
 import cucumber.TestContext;
 import managers.FileReaderManager;
+import managers.PageObjectManager;
 import org.junit.Assert;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utilities.BrowserUtils;
 
 import java.util.Date;
 import java.util.Set;
@@ -15,7 +17,6 @@ import java.util.Set;
 public class LoginPage {
 
     WebDriver driver;
-
 
 
     public LoginPage(WebDriver driver){
@@ -33,6 +34,9 @@ public class LoginPage {
     @FindBy(css = "label[id='userName-value']")
     public WebElement UserNameLabel;
 
+    @FindBy(css = "p[id='name']")
+    public WebElement loginErrorMessage;
+
     public void NavigateToBookStoreHomePage(){
         driver.get(FileReaderManager.getInstance().getConfigReader().getApplicationUrl());
     }
@@ -47,12 +51,26 @@ public class LoginPage {
         password.sendKeys(FileReaderManager.getInstance().getConfigReader().getProperty("password"));
     }
 
+    public void testLoginNegative(){
+        userName.sendKeys(FileReaderManager.getInstance().getConfigReader().getProperty("negUsername"));
+        password.sendKeys(FileReaderManager.getInstance().getConfigReader().getProperty("negPassword"));
+        loginButton.click();
+    }
+
+    public void assertNegativeLogin(){
+        String expected = "Invalid username or password!";
+        String actual = loginErrorMessage.getText();
+        Assert.assertEquals(expected,actual);
+    }
+
     public void assertLoginUserNameLabel(){
         String actualUsernameLabel = UserNameLabel.getText();
         String expectedUserNameLabel = "UserUser123";
 
         Assert.assertEquals(actualUsernameLabel,expectedUserNameLabel);
     }
+
+
 
     public void logOut(){
         logOutButton.click();

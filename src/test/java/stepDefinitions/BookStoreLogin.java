@@ -22,6 +22,7 @@ public class BookStoreLogin {
         loginPage = testContext.getPageObjectManager().getLoginPage();
         browserUtils = testContext.getPageObjectManager().getBrowserUtils();
     }
+
     @Given("I am on bookstore login page")
     public void iAmOnBookstoreLoginPage() {
         loginPage.NavigateToBookStoreHomePage();
@@ -43,4 +44,18 @@ public class BookStoreLogin {
         loginPage.logOut();
         System.out.println("Test Passed");
     }
+
+    @When("I enter incorrect credentials")
+    public void i_enter_incorrect_credentials() {
+        loginPage.testLoginNegative();
+    }
+
+    @Then("I should see an error message")
+    public void i_should_see_an_error_message() {
+        loginPage.assertNegativeLogin();
+    }
+
+
 }
+
+
