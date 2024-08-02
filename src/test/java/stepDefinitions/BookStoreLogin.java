@@ -12,9 +12,7 @@ import java.io.IOException;
 public class BookStoreLogin {
 
     TestContext testContext;
-
     LoginPage loginPage;
-
     BrowserUtils browserUtils;
 
     public BookStoreLogin(TestContext context){

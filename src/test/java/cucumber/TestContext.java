@@ -7,14 +7,26 @@ import java.net.MalformedURLException;
 
 public class TestContext {
 
+    private static TestContext instance;
     private DriverManager driverManager;
     private PageObjectManager pageObjectManager;
-    ScenarioContext scenarioContext;
+    private ScenarioContext scenarioContext;
 
-    public TestContext() {
+    private TestContext() {
         driverManager = new DriverManager();
         pageObjectManager = new PageObjectManager(driverManager.getDriver());
         scenarioContext = new ScenarioContext();
+    }
+
+    public static TestContext getInstance() {
+        if (instance == null) {
+            synchronized (TestContext.class) {
+                if (instance == null) {
+                    instance = new TestContext();
+                }
+            }
+        }
+        return instance;
     }
 
     public DriverManager getWebDriverManager() {
