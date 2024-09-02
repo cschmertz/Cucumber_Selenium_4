@@ -1,19 +1,21 @@
 pipeline {
     agent any
-
+    tools {
+        maven 'Maven 3.8.1'
+    }
     stages {
         stage('Checkout Repos') {
             steps {
                 // UI Layer Repository
-                git url: 'https://github.com/cschmertz/Cucumber_Selenium', branch: 'main'
+                checkout scm
 
                 // API Layer Repository
-                dir('api-layer') {
+                dir('ApiLayer') {
                     git url: 'https://github.com/cschmertz/ApiLayer', branch: 'main'
                 }
 
                 // Database Layer Repository
-                dir('database-layer') {
+                dir('DatabaseLayer') {
                     git url: 'https://github.com/cschmertz/DatabaseLayer', branch: 'main'
                 }
             }
@@ -21,9 +23,7 @@ pipeline {
 
         stage('Build and Test UI Layer') {
             steps {
-                dir('Cucumber_Selenium') {
-                    sh 'mvn clean install'  // This builds and runs tests for the UI layer
-                }
+                sh 'mvn clean test'  // Changed from 'mvn clean install' to ensure tests are run
             }
             post {
                 always {
@@ -34,8 +34,8 @@ pipeline {
 
         stage('Build and Test API Layer') {
             steps {
-                dir('api-layer') {
-                    sh 'mvn clean install'  // This builds and runs tests for the API layer
+                dir('ApiLayer') {
+                    sh 'mvn clean test'  // Changed from 'mvn clean install' to ensure tests are run
                 }
             }
             post {
@@ -47,8 +47,8 @@ pipeline {
 
         stage('Build and Test Database Layer') {
             steps {
-                dir('database-layer') {
-                    sh 'mvn clean install'  // This builds and runs tests for the Database layer
+                dir('DatabaseLayer') {
+                    sh 'mvn clean test'  // Changed from 'mvn clean install' to ensure tests are run
                 }
             }
             post {
