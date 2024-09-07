@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -110,6 +109,11 @@ public class BrowserUtils   {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void waitForPageToLoad(int seconds) {
+        new WebDriverWait(driver, seconds)
+            .until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 
     /**
