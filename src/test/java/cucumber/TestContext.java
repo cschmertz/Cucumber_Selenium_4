@@ -3,11 +3,9 @@ package cucumber;
 import managers.PageObjectManager;
 import managers.DriverManager;
 
-import java.net.MalformedURLException;
-
 public class TestContext {
 
-    private static TestContext instance;
+    private static volatile TestContext instance;
     private DriverManager driverManager;
     private PageObjectManager pageObjectManager;
     private ScenarioContext scenarioContext;
@@ -39,5 +37,30 @@ public class TestContext {
 
     public ScenarioContext getScenarioContext() {
         return scenarioContext;
+    }
+
+    public static void reset() {
+
+        synchronized (TestContext.class) {
+
+            if (instance != null) {
+                instance.cleanUp();
+                instance = null;
+            }
+
+        }
+    }
+
+    public void cleanUp() {
+
+        if (driverManager != null) {
+            driverManager.closeDriver();
+        }
+
+        pageObjectManager = null;
+
+        if (scenarioContext != null) {
+            scenarioContext.clearContext();
+        }
     }
 }
