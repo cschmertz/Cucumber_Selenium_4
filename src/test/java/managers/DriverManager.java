@@ -53,6 +53,24 @@ public class DriverManager {
         return driver;
     }
 
+    public WebDriver createBrowserStackDriver() throws Exception {
+
+        String USERNAME = System.getProperty("browserstack.user");
+        String AUTOMATE_KEY = System.getProperty("browserstack.key");
+        String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
+
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability("browserName", "Chrome");
+        caps.setCapability("browserVersion", "latest");
+        caps.setCapability("os", "Windows");
+        caps.setCapability("osVersion", "10");
+        caps.setCapability("project", "Cucumber_Selenium");
+        caps.setCapability("build", "BrowserStack Build " + System.currentTimeMillis());
+        caps.setCapability("name", "BrowserStack Test");
+
+        return new RemoteWebDriver(new URL(URL), caps);
+    }
+
     private WebDriver createRemoteDriver() {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setJavascriptEnabled(true);

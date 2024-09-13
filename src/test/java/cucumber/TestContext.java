@@ -2,6 +2,7 @@ package cucumber;
 
 import managers.PageObjectManager;
 import managers.DriverManager;
+import org.openqa.selenium.WebDriver;
 
 public class TestContext {
 
@@ -9,10 +10,12 @@ public class TestContext {
     private DriverManager driverManager;
     private PageObjectManager pageObjectManager;
     private ScenarioContext scenarioContext;
+    private WebDriver webDriver;
 
     private TestContext() {
         driverManager = new DriverManager();
-        pageObjectManager = new PageObjectManager(driverManager.getDriver());
+        webDriver = driverManager.getDriver();
+        pageObjectManager = new PageObjectManager(webDriver);
         scenarioContext = new ScenarioContext();
     }
 
@@ -39,28 +42,44 @@ public class TestContext {
         return scenarioContext;
     }
 
+    public WebDriver getWebDriver() {
+        return webDriver;
+    }
+
+    public void setWebDriver(WebDriver driver) {
+        this.webDriver = driver;
+        this.pageObjectManager = new PageObjectManager(driver);
+    }
+
     public static void reset() {
-
         synchronized (TestContext.class) {
-
             if (instance != null) {
                 instance.cleanUp();
                 instance = null;
             }
-
         }
     }
 
     public void cleanUp() {
-
         if (driverManager != null) {
             driverManager.closeDriver();
         }
 
+        webDriver = null;
         pageObjectManager = null;
 
         if (scenarioContext != null) {
             scenarioContext.clearContext();
+        }
+    }
+
+    public void initializeBrowserStackDriver() {
+        try {
+            WebDriver browserStackDriver = driverManager.createBrowserStackDriver();
+            setWebDriver(browserStackDriver);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to initialize BrowserStack driver", e);
         }
     }
 }

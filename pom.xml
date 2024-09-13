@@ -112,6 +112,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.browserstack</groupId>
+            <artifactId>browserstack-java-sdk</artifactId>
+            <version>1.23.4</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>

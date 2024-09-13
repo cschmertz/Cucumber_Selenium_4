@@ -1,8 +1,12 @@
 package runners;
 
+import cucumber.TestContext;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+import managers.DriverManager;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
@@ -18,4 +22,28 @@ import org.junit.runner.RunWith;
         dryRun = false
 )
 public class TestRunner {
+
+    private static TestContext testContext;
+    private static DriverManager driverManager;
+
+    @BeforeClass
+    public static void setup() {
+        testContext = TestContext.getInstance();
+        driverManager = testContext.getWebDriverManager();
+
+        String executionMode = System.getProperty("executionMode", "local");
+        if ("browserstack".equalsIgnoreCase(executionMode)) {
+            try {
+                WebDriver driver = driverManager.createBrowserStackDriver();
+                // Set the driver for your tests
+                testContext.setWebDriver(driver);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Existing local driver setup
+            WebDriver driver = driverManager.getDriver();
+            testContext.setWebDriver(driver);
+        }
+    }
 }
