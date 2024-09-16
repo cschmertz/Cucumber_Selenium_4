@@ -46,14 +46,21 @@ public class DriverManager {
                 break;
             case REMOTE : driver = createRemoteDriver();
                 break;
+            case BROWSERSTACK:
+                try{
+                    driver = createBrowserStackDriver();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
         return driver;
     }
 
     public WebDriver createBrowserStackDriver() throws Exception {
 
-        String USERNAME = System.getProperty("browserstack.user");
-        String AUTOMATE_KEY = System.getProperty("browserstack.key");
+        String USERNAME = System.getProperty("user");
+        String AUTOMATE_KEY = System.getProperty("key");
         String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
         String buildName = "";
         String projectName = "";

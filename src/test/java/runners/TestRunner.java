@@ -1,6 +1,7 @@
 package runners;
 
 import cucumber.TestContext;
+import dataProvider.ConfigFileReader;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import managers.DriverManager;
@@ -27,21 +28,19 @@ import java.util.Properties;
 )
 public class TestRunner {
 
-    private static TestContext testContext;
-    private static DriverManager driverManager;
-
     @BeforeClass
     public static void setup() {
-
-            Properties props = new Properties();
-            try {
-                props.load(new FileInputStream("browserstack.yml"));
-            } catch (IOException e) {
+        Properties props = new Properties();
+        try {
+            props.load(new FileInputStream("configs/Configuration.properties"));
+        } catch (IOException e) {
                 e.printStackTrace();
             }
-
             for (String key : props.stringPropertyNames()) {
                 System.setProperty(key, props.getProperty(key));
             }
         }
+
+
+
 }
