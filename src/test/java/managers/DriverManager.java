@@ -4,10 +4,7 @@ import enums.DriverType;
 import enums.EnvironmentType;
 import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -58,18 +55,22 @@ public class DriverManager {
         String USERNAME = System.getProperty("browserstack.user");
         String AUTOMATE_KEY = System.getProperty("browserstack.key");
         String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
+        String buildName = "";
+        String projectName = "";
 
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("browserName", "Chrome");
-        caps.setCapability("browserVersion", "latest");
-        caps.setCapability("os", "Windows");
-        caps.setCapability("osVersion", "10");
-        caps.setCapability("project", "Cucumber_Selenium");
-        caps.setCapability("build", "BrowserStack Build " + System.currentTimeMillis());
-        caps.setCapability("name", "BrowserStack Test");
+        caps.setCapability("browser",System.getProperty("browserstack.browser"));
+        caps.setCapability("browser_version", System.getProperty("browserstack.browser_version"));
+        caps.setCapability("os", System.getProperty("browserstack.os"));
+        caps.setCapability("os_version", System.getProperty("browserstack.os_version"));
+        caps.setCapability("resolution", System.getProperty("browserstack.resolution"));
+        caps.setCapability("project", projectName);
+        caps.setCapability("build", buildName);
+        caps.setCapability("name", "Your Test Name");
 
         return new RemoteWebDriver(new URL(URL), caps);
     }
+
 
     private WebDriver createRemoteDriver() {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
@@ -125,7 +126,6 @@ public class DriverManager {
         return driver;
     }
     public void closeDriver() {
-
         driver.quit();
     }
 

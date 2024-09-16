@@ -8,6 +8,10 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"src/test/resources/functionalTests"},
@@ -28,22 +32,16 @@ public class TestRunner {
 
     @BeforeClass
     public static void setup() {
-        testContext = TestContext.getInstance();
-        driverManager = testContext.getWebDriverManager();
 
-        String executionMode = System.getProperty("executionMode", "local");
-        if ("browserstack".equalsIgnoreCase(executionMode)) {
+            Properties props = new Properties();
             try {
-                WebDriver driver = driverManager.createBrowserStackDriver();
-                // Set the driver for your tests
-                testContext.setWebDriver(driver);
-            } catch (Exception e) {
+                props.load(new FileInputStream("browserstack.yml"));
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            // Existing local driver setup
-            WebDriver driver = driverManager.getDriver();
-            testContext.setWebDriver(driver);
+
+            for (String key : props.stringPropertyNames()) {
+                System.setProperty(key, props.getProperty(key));
+            }
         }
-    }
 }

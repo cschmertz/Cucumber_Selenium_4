@@ -63,6 +63,7 @@ public class ConfigFileReader {
         String environmentName = properties.getProperty("environment");
         if(environmentName == null || environmentName.equalsIgnoreCase("local")) return EnvironmentType.LOCAL;
         else if(environmentName.equals("remote")) return EnvironmentType.REMOTE;
+        else if(environmentName.equals("browserstack")) return EnvironmentType.BROWSERSTACK;
         else throw new RuntimeException("Environment Type Key value in Configuration.properties is not matched : " + environmentName);
     }
 
