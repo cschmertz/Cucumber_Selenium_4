@@ -53,7 +53,7 @@ public class ConfigFileReader {
         String browserName = properties.getProperty("browser");
         if(browserName == null || browserName.equals("chrome")) return DriverType.CHROME;
         else if(browserName.equals("firefox")) return DriverType.FIREFOX;
-        else if(browserName.equals("iexplorer")) return DriverType.INTERNETEXPLORER;
+        else if(browserName.equals("edge")) return DriverType.EDGE;
         else if(browserName.equals("remote_chrome")) return DriverType.REMOTECHROME;
         else if(browserName.equals("remote_firefox")) return DriverType.REMOTEFIREFOX;
         else throw new RuntimeException("Browser Name Key value in Configuration.properties is not matched : " + browserName);
@@ -71,6 +71,12 @@ public class ConfigFileReader {
         String windowSize = properties.getProperty("windowMaximize");
         if(windowSize != null) return Boolean.valueOf(windowSize);
         return true;
+    }
+
+    public String getRemoteUrl() {
+        String remoteUrl = properties.getProperty("remoteUrl");
+        if (remoteUrl != null) return remoteUrl;
+        else throw new RuntimeException("remoteUrl not specified in the Configuration.properties file.");
     }
 
 }

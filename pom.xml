@@ -223,6 +223,12 @@
             <version>5.0.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.29</version>
+        </dependency>
+
     </dependencies>
 
 </project>

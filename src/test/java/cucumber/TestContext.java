@@ -73,13 +73,5 @@ public class TestContext {
         }
     }
 
-    public void initializeBrowserStackDriver() {
-        try {
-            WebDriver browserStackDriver = driverManager.createBrowserStackDriver();
-            setWebDriver(browserStackDriver);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to initialize BrowserStack driver", e);
-        }
-    }
+
 }
