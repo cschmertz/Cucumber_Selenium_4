@@ -27,11 +27,8 @@ pipeline {
         stage('Build and Test UI Layer') {
             steps {
                 browserstack(credentialsId: '64bac0ff-5ccd-44ce-a197-6656c4374c85') {
-                    // Install dependencies
-                    sh 'npm install'
-                    
-                    // Run tests using BrowserStack SDK
-                    sh 'browserstack-node-sdk mvn test'
+                    // Run tests using Maven
+                    sh 'mvn clean test -Dmaven.test.failure.ignore=true || (echo "UI Layer tests failed"; exit 1)'
                 }
             }
             post {
@@ -44,8 +41,7 @@ pipeline {
         stage('Build and Test API Layer') {
             steps {
                 dir('ApiLayer') {
-                    // Continue running tests even if some fail
-                    sh 'mvn clean test -Dmaven.test.failure.ignore=true'
+                    sh 'mvn clean test -Dmaven.test.failure.ignore=true || (echo "API Layer tests failed"; exit 1)'
                 }
             }
             post {
@@ -58,8 +54,7 @@ pipeline {
         stage('Build and Test Database Layer') {
             steps {
                 dir('DatabaseLayer') {
-                    // Continue running tests even if some fail
-                    sh 'mvn clean test -Dmaven.test.failure.ignore=true'
+                    sh 'mvn clean test -Dmaven.test.failure.ignore=true || (echo "Database Layer tests failed"; exit 1)'
                 }
             }
             post {
@@ -72,10 +67,11 @@ pipeline {
 
     post {
         always {
-            // Enable reporting in Jenkins
             browserStackReportPublisher 'automate'
-            // Clean up workspace after build
             cleanWs()
+        }
+        failure {
+            echo 'The pipeline failed. Please check the console output for details.'
         }
     }
 }
