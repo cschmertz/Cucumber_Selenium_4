@@ -93,32 +93,34 @@ public class DriverManager {
         }
     }
 
-
     private WebDriver createBrowserStackDriver() {
-
         List<Map<String, Object>> allPlatforms = yamlConfigReader.getAllPlatforms();
-        Map<String, Object> platform = allPlatforms.get(0);
         
-        MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability("browserName", platform.get("browserName"));
-        capabilities.setCapability("browserVersion", platform.get("browserVersion"));
-        capabilities.setCapability("os", platform.get("os"));
-        capabilities.setCapability("osVersion", platform.get("osVersion"));
+        for (Map<String, Object> platform : allPlatforms) {
+            MutableCapabilities capabilities = new MutableCapabilities();
+            capabilities.setCapability("browserName", platform.get("browserName"));
+            capabilities.setCapability("browserVersion", platform.get("browserVersion"));
+            capabilities.setCapability("os", platform.get("os"));
+            capabilities.setCapability("osVersion", platform.get("osVersion"));
 
-        HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
-        browserstackOptions.put("userName", yamlConfigReader.getUserName());
-        browserstackOptions.put("accessKey", yamlConfigReader.getAccessKey());
-        browserstackOptions.put("projectName", yamlConfigReader.getProjectName());
-        browserstackOptions.put("buildName", yamlConfigReader.getBuildName());
-        browserstackOptions.put("sessionName", "BStack-[Java] Sample Test");
-        capabilities.setCapability("bstack:options", browserstackOptions);
-
-        try {
-            return new RemoteWebDriver(
-                new URL("https://hub-cloud.browserstack.com/wd/hub"), capabilities);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Failed to create BrowserStack driver", e);
+            HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
+            browserstackOptions.put("userName", yamlConfigReader.getUserName());
+            browserstackOptions.put("accessKey", yamlConfigReader.getAccessKey());
+            browserstackOptions.put("projectName", yamlConfigReader.getProjectName());
+            browserstackOptions.put("buildName", yamlConfigReader.getBuildName());
+            browserstackOptions.put("sessionName", "BStack-[Java] Sample Test");
+            capabilities.setCapability("bstack:options", browserstackOptions);
+            
+            try {
+                return new RemoteWebDriver(
+                    new URL("https://hub-cloud.browserstack.com/wd/hub"), capabilities);
+            } catch (MalformedURLException e) {
+                logger.error("Failed to create BrowserStack driver for platform: {}", platform, e);
+                // Continue to the next platform if this one fails
+            }
         }
+        
+        throw new RuntimeException("Failed to create BrowserStack driver for any platform");
     }
 
     public void closeDriver() {

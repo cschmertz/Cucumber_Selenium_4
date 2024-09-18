@@ -20,6 +20,10 @@ public class YamlConfigReader {
         }
     }
 
+    public YamlConfigReader(String configFile) {
+        // Initialize the YamlConfigReader with the given config file
+    }
+
     public String getUserName() {
         return (String) config.get("userName");
     }

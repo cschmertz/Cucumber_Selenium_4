@@ -1,8 +1,11 @@
 pipeline {
+    
     agent any
+    
     tools {
         maven 'Maven 3.8.1'
     }
+    
     stages {
         stage('Checkout Repos') {
             steps {
@@ -23,8 +26,13 @@ pipeline {
 
         stage('Build and Test UI Layer') {
             steps {
-                // Continue running tests even if some fail
-                sh 'mvn clean test -Dmaven.test.failure.ignore=true'
+                browserstack(credentialsId: '64bac0ff-5ccd-44ce-a197-6656c4374c85') {
+                    // Install dependencies
+                    sh 'npm install'
+                    
+                    // Run tests using BrowserStack SDK
+                    sh 'browserstack-node-sdk mvn test'
+                }
             }
             post {
                 always {
@@ -64,6 +72,8 @@ pipeline {
 
     post {
         always {
+            // Enable reporting in Jenkins
+            browserStackReportPublisher 'automate'
             // Clean up workspace after build
             cleanWs()
         }

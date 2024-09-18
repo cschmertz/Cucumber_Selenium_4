@@ -58,7 +58,7 @@ platforms:
 # Example 1 - If you have configured 3 platforms and set `parallelsPerPlatform` as 2, a total of 6 (2 * 3) parallel threads will be used on BrowserStack
 #
 # Example 2 - If you have configured 1 platform and set `parallelsPerPlatform` as 5, a total of 5 (1 * 5) parallel threads will be used on BrowserStack
-parallelsPerPlatform: 3
+parallelsPerPlatform: 1
 
 source: java:intellij:v1.1.6
 
@@ -68,7 +68,7 @@ source: java:intellij:v1.1.6
 # ==========================================
 # Set browserStackLocal to true if your website under test is not accessible publicly over the internet
 # Learn more about how BrowserStack Local works here -> https://www.browserstack.com/docs/automate/selenium/local-testing-introduction
-browserstackLocal: false # <boolean> (Default false)
+browserstackLocal: true # <boolean> (Default false)
 
 # Options to be passed to BrowserStack local in-case of advanced configurations
 # browserStackLocalOptions:
@@ -81,6 +81,6 @@ browserstackLocal: false # <boolean> (Default false)
 # Debugging features
 # ===================
 debug: false # <boolean> # Set to true if you need screenshots for every selenium command ran
-networkLogs: false # <boolean> Set to true to enable HAR logs capturing
+networkLogs: true # <boolean> Set to true to enable HAR logs capturing
 consoleLogs: errors # <string> Remote browser's console debug levels to be printed (Default: errors)
 # Available options are `disable`, `errors`, `warnings`, `info`, `verbose` (Default: errors)
