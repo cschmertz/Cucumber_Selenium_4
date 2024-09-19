@@ -7,10 +7,9 @@ import io.cucumber.junit.CucumberOptions;
 
 import org.junit.runner.RunWith;
 
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import dataProvider.ConfigFileReader;
+import dataProvider.YamlConfigReader;
+import enums.EnvironmentType;
 
 
 @RunWith(Cucumber.class)
@@ -29,35 +28,15 @@ import java.util.Properties;
 
 public class TestRunner {
 
+    private static ConfigFileReader configFileReader;
+    private static YamlConfigReader yamlConfigReader;
+
     @BeforeClass
     public static void setup() {
-        String environment = System.getProperty("environment", "local");
+        configFileReader = new ConfigFileReader();
         
-        if ("browserstack".equalsIgnoreCase(environment)) {
-            loadBrowserstackConfig();
-        } else {
-            loadDefaultConfig();
+        if (configFileReader.getEnvironment() == EnvironmentType.BROWSERSTACK) {
+            yamlConfigReader = new YamlConfigReader();
         }
     }
-
-    private static void loadDefaultConfig() {
-        loadPropertiesFile("configs/Configuration.properties");
-    }
-
-    private static void loadBrowserstackConfig() {
-        loadPropertiesFile("browserstack.yml");
-    }
-
-    private static void loadPropertiesFile(String filePath) {
-        Properties props = new Properties();
-        try {
-            props.load(new FileInputStream(filePath));
-            for (String key : props.stringPropertyNames()) {
-                System.setProperty(key, props.getProperty(key));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
 }
