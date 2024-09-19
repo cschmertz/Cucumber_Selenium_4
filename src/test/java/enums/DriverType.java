@@ -8,6 +8,8 @@ public enum DriverType {
 
     EDGE,
 
+    SAFARI,
+
     REMOTECHROME,
 
     REMOTEFIREFOX,

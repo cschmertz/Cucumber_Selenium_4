@@ -10,6 +10,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.concurrent.TimeUnit;
 
 public class DriverManager {
     private static final Logger logger = LoggerFactory.getLogger(DriverManager.class);
@@ -67,19 +68,32 @@ public class DriverManager {
 
     private WebDriver createLocalDriver() {
         logger.info("Creating local driver for browser: {}", driverType);
+        WebDriver localDriver;
         switch (driverType) {
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
-                return new FirefoxDriver();
+                localDriver = new FirefoxDriver();
+                break;
             case CHROME:
                 WebDriverManager.chromedriver().setup();
-                return new ChromeDriver();
+                localDriver = new ChromeDriver();
+                break;
             case EDGE:
                 WebDriverManager.edgedriver().setup();
-                return new EdgeDriver();
+                localDriver = new EdgeDriver();
+                break;
+            case SAFARI:
+                WebDriverManager.safaridriver().setup();
+                localDriver = new SafariDriver();
+                break;
             default:
                 throw new RuntimeException("Unsupported driver type: " + driverType);
         }
+        
+        long implicitWaitTime = FileReaderManager.getInstance().getConfigReader().getImplicitlyWait();
+        localDriver.manage().timeouts().implicitlyWait(implicitWaitTime, TimeUnit.SECONDS);
+        
+        return localDriver;
     }
 
     private WebDriver createRemoteDriver() {
