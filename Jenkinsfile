@@ -26,6 +26,7 @@ pipeline {
 
         stage('Build and Test UI Layer') {
             steps {
+                //browsestack credentials wrapped
                 browserstack(credentialsId: '64bac0ff-5ccd-44ce-a197-6656c4374c85') {
                     // Run tests using Maven
                     sh 'mvn clean test -Dmaven.test.failure.ignore=true || (echo "UI Layer tests failed"; exit 1)'
