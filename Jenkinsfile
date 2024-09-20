@@ -29,7 +29,7 @@ pipeline {
                 //browsestack credentials wrapped
                 browserstack(credentialsId: '64bac0ff-5ccd-44ce-a197-6656c4374c85') {
                     // Run tests using Maven
-                    sh 'mvn clean test -Dmaven.test.failure.ignore=true || (echo "UI Layer tests failed"; exit 1)'
+                    sh 'mvn clean install -Dmaven.test.failure.ignore=true || (echo "UI Layer build failed"; exit 1)'
                 }
             }
             post {
@@ -42,7 +42,7 @@ pipeline {
         stage('Build and Test API Layer') {
             steps {
                 dir('ApiLayer') {
-                    sh 'mvn clean test -Dmaven.test.failure.ignore=true || (echo "API Layer tests failed"; exit 1)'
+                    sh 'mvn clean install -Dmaven.test.failure.ignore=true || (echo "API Layer build failed"; exit 1)'
                 }
             }
             post {
@@ -55,7 +55,7 @@ pipeline {
         stage('Build and Test Database Layer') {
             steps {
                 dir('DatabaseLayer') {
-                    sh 'mvn clean test -Dmaven.test.failure.ignore=true || (echo "Database Layer tests failed"; exit 1)'
+                    sh 'mvn clean install -Dmaven.test.failure.ignore=true || (echo "Database Layer build failed"; exit 1)'
                 }
             }
             post {
