@@ -22,7 +22,7 @@ import enums.EnvironmentType;
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
                 "listeners.TestFailureListener"},
         monochrome = true,
-        tags = "@Google",
+        tags = "@ShadowDom",
         dryRun = false
 )
 

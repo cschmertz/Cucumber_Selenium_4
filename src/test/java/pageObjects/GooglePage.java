@@ -6,11 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 public class GooglePage  {
+
     WebDriver driver;
 
-
     public GooglePage(WebDriver driver){
-
         this.driver = driver;
         PageFactory.initElements(driver,this);
     }
