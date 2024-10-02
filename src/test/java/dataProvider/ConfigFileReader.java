@@ -55,6 +55,12 @@ public class ConfigFileReader {
         else throw new RuntimeException("shadowDomUrl not specified in the Configuration.properties file.");
         }
 
+    public String getShadowDomTwoUrl() {
+        String shadowDomTwoUrl = properties.getProperty("shadowDomTwoUrl");
+        if(shadowDomTwoUrl != null) return shadowDomTwoUrl;
+        else throw new RuntimeException("shadowDomTwoUrl not specified in the Configuration.properties file.");
+    }
+
     public DriverType getBrowser() {
         String browserName = properties.getProperty("browser");
         if(browserName == null || browserName.equals("chrome")) return DriverType.CHROME;

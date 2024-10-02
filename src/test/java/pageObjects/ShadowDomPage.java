@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import cucumber.TestContext;
 import managers.FileReaderManager;
 import utilities.BrowserUtils;
 
@@ -16,12 +17,14 @@ import java.util.List;
 public class ShadowDomPage {
    
     WebDriver driver;
-    WebElement shadowElement; // Declare shadowElement here
-    private BrowserUtils browserUtils;
+    WebElement shadowElement;
+    BrowserUtils browserUtils;
+    TestContext testContext;
 
     public ShadowDomPage(WebDriver driver) {
+        testContext = TestContext.getInstance();
         this.driver = driver;
-        this.browserUtils = new BrowserUtils(driver); // Initialize BrowserUtils
+        this.browserUtils = testContext.getPageObjectManager().getBrowserUtils();
         PageFactory.initElements(driver, this);
     }
 
