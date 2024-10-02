@@ -424,7 +424,21 @@ public class BrowserUtils   {
         return false;
     }
 
+    public WebElement getShadowElement(WebDriver driver, String shadowHostSelector, String shadowElementSelector) {
+        // Locate the shadow host element
+        WebElement shadowHost = driver.findElement(By.cssSelector(shadowHostSelector));
 
+        // Access the shadow root using JavaScriptExecutor
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // Retrieve the shadow root and query the shadow DOM for the element
+        WebElement shadowElement = (WebElement) js.executeScript(
+                "return arguments[0].shadowRoot.querySelector(arguments[1])",
+                shadowHost, shadowElementSelector
+        );
+
+        return shadowElement;
+    }
 }
 
 

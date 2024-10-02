@@ -9,15 +9,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import managers.FileReaderManager;
+import utilities.BrowserUtils;
 
 import java.util.List;
 
 public class ShadowDomPage {
    
     WebDriver driver;
+    WebElement shadowElement; // Declare shadowElement here
+    private BrowserUtils browserUtils;
 
     public ShadowDomPage(WebDriver driver) {
         this.driver = driver;
+        this.browserUtils = new BrowserUtils(driver); // Initialize BrowserUtils
         PageFactory.initElements(driver, this);
     }
 
@@ -25,38 +29,11 @@ public class ShadowDomPage {
         driver.get(FileReaderManager.getInstance().getConfigReader().getShadowDomUrl());
     }
 
+    public void initializeShadowElement() {
+        shadowElement = browserUtils.getShadowElement(driver, "#content > my-paragraph:nth-child(4)", "p");
+    }
+
     public String getShadowElementText() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        WebElement shadowHost = driver.findElement(By.cssSelector("my-paragraph:nth-of-type(2)"));
-        
-        // Check if shadowHost is found
-        if (shadowHost == null) {
-            throw new RuntimeException("Shadow host not found");
-        }
-
-        // Wait for the shadow root to be available
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOf(shadowHost));
-
-        // Wait for the list item to be present in the shadow DOM
-        WebElement listItem = (WebElement) js.executeScript(
-            "return arguments[0].shadowRoot ? arguments[0].shadowRoot.querySelector('ul li') : null;", shadowHost);
-
-        // Check if listItem is found
-        if (listItem == null) {
-            // Wait for the list item to be present
-            wait.until(driver -> (WebElement) js.executeScript(
-                "return arguments[0].shadowRoot ? arguments[0].shadowRoot.querySelector('ul li') : null;", shadowHost));
-            
-            listItem = (WebElement) js.executeScript(
-                "return arguments[0].shadowRoot ? arguments[0].shadowRoot.querySelector('ul li') : null;", shadowHost);
-            
-            if (listItem == null) {
-                throw new RuntimeException("List item not found in shadow DOM");
-            }
-        }
-
-        return listItem.getText();
+        return shadowElement.getText();
     }
 }

@@ -22,7 +22,9 @@ public class ShadowDomSteps {
 
     @Then("I should see the text {string} in the shadow element")
     public void i_should_see_the_text_in_the_shadow_element(String expectedText) {
+        shadowDomPage.initializeShadowElement();
         String actualText = shadowDomPage.getShadowElementText();
         assertEquals(expectedText, actualText);
+        System.out.println("Text inside the shadow DOM element: " + actualText);
     }
 }
