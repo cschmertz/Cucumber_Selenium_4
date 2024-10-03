@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.time.Duration;
 
 public class BrowserUtils   {
 
@@ -124,7 +125,7 @@ public class BrowserUtils   {
      * @return
      */
     public WebElement waitForVisibility(WebElement element, int timeToWaitInSec) {
-        WebDriverWait wait = new WebDriverWait(driver, timeToWaitInSec);
+        WebDriverWait wait = new WebDriverWait(driver, timeToWaitInSec); // Updated constructor
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -136,7 +137,7 @@ public class BrowserUtils   {
      * @return
      */
     public WebElement waitForVisibility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        WebDriverWait wait = new WebDriverWait(driver, timeout); // Changed Duration.ofSeconds(timeout) to timeout
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -148,7 +149,7 @@ public class BrowserUtils   {
      * @return
      */
     public WebElement waitForClickability(WebElement element, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        WebDriverWait wait = new WebDriverWait(driver, timeout); // Updated constructor
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
@@ -159,8 +160,8 @@ public class BrowserUtils   {
      * @param timeout
      * @return
      */
-    public WebElement waitForClickablility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, timeout);
+    public WebElement waitForClickability(By locator, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, timeout); // Updated constructor
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
@@ -440,5 +441,3 @@ public class BrowserUtils   {
         return shadowElement;
     }
 }
-
-

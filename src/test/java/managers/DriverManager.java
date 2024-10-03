@@ -14,7 +14,6 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import dataProvider.YamlConfigReader;
 
 import java.net.MalformedURLException;
@@ -23,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class DriverManager {
     private static final Logger logger = LoggerFactory.getLogger(DriverManager.class);
@@ -47,7 +47,7 @@ public class DriverManager {
 
     public WebDriver getDriver() {
         if (driver.get() == null) {
-            driver.set(createDriver());
+            driver.set(createDriver()); // Ensure this is only called once
         }
         return driver.get();
     }
