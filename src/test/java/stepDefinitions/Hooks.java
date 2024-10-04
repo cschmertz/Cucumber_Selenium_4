@@ -18,7 +18,7 @@ public class Hooks {
 
     @Before
     public void setUp() {
-        testContext.getWebDriverManager().getDriver(); // Ensure the driver is initialized
+        testContext.getWebDriverManager().getDriver();
     }
 
     @AfterStep
@@ -35,6 +35,7 @@ public class Hooks {
             System.out.println("Scenario Status: Failed");
             System.out.println("Error Message: " + scenario.getStatus());
             System.out.println("Timestamp: " + LocalDateTime.now());
+            testContext.getWebDriverManager().getScreenShot(scenario);
         }
     }
 

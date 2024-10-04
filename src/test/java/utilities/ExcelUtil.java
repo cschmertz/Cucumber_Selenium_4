@@ -402,6 +402,11 @@ public class ExcelUtil extends ConfigFileReader{
         return workSheet.getLastRowNum()+1;
     }
 
+    public String getSheetName() {
+        // Return the name of the sheet you want to use
+        return "YourSheetName"; // Update this with the actual sheet name
+    }
+
 }
 
 
