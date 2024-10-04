@@ -1,7 +1,7 @@
 @ShadowDom @Suite
 Feature: Shadow DOM Text Verification
 
-@ShadowDom1
+@ShadowDom1 @Smoke
   Scenario: Verify text in shadow element
     Given I navigate to the Shadow DOM page
     Then I should see the text "Let's have some different text!" in the shadow element

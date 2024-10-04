@@ -113,7 +113,7 @@ public class BrowserUtils   {
     }
 
     public void waitForPageToLoad(int seconds) {
-        new WebDriverWait(driver, seconds)
+        new WebDriverWait(driver, Duration.ofSeconds(seconds)) // Updated to use Duration
             .until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 
@@ -125,7 +125,7 @@ public class BrowserUtils   {
      * @return
      */
     public WebElement waitForVisibility(WebElement element, int timeToWaitInSec) {
-        WebDriverWait wait = new WebDriverWait(driver, timeToWaitInSec); // Updated constructor
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeToWaitInSec)); // Updated to use Duration
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -137,7 +137,7 @@ public class BrowserUtils   {
      * @return
      */
     public WebElement waitForVisibility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, timeout); // Changed Duration.ofSeconds(timeout) to timeout
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout)); // Updated to use Duration
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -149,7 +149,7 @@ public class BrowserUtils   {
      * @return
      */
     public WebElement waitForClickability(WebElement element, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, timeout); // Updated constructor
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout)); // Updated to use Duration
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
@@ -161,7 +161,7 @@ public class BrowserUtils   {
      * @return
      */
     public WebElement waitForClickability(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, timeout); // Updated constructor
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout)); // Updated to use Duration
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
@@ -177,7 +177,7 @@ public class BrowserUtils   {
             }
         };
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(expectation);
         } catch (Throwable error) {
             error.printStackTrace();
@@ -311,7 +311,7 @@ public class BrowserUtils   {
     public void highlight(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
         waitFor(1);
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) ((JavascriptExecutor) driver).executeScript("arguments[0].removeAttribute('style', 'background: yellow; border: 2px solid red;');", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].removeAttribute('style', 'background: yellow; border: 2px solid red;');", element);
     }
 
     /**
@@ -407,7 +407,7 @@ public class BrowserUtils   {
      * @param time
      */
     public void waitForPresenceOfElement(By by, long time) {
-        new WebDriverWait(driver, time).until(ExpectedConditions.presenceOfElementLocated(by));
+        new WebDriverWait(driver, Duration.ofSeconds(time)).until(ExpectedConditions.presenceOfElementLocated(by)); // Updated to use Duration
     }
 
     public static boolean isFileDownloaded(String downloadPath, String fileName) {
@@ -439,5 +439,22 @@ public class BrowserUtils   {
         );
 
         return shadowElement;
+    }
+
+    /**
+     * Waits for the text of a button to match the expected text.
+     *
+     * @param buttonLocator The locator of the button.
+     * @param expectedText The text to wait for.
+     * @param timeout The maximum time to wait in seconds.
+     * @return The actual text of the button once it matches the expected text.
+     */
+    public String waitForButtonText(By buttonLocator, String expectedText, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout)); // Updated line
+        return wait.until(driver -> {
+            WebElement button = driver.findElement(buttonLocator);
+            String actualText = button.getText();
+            return actualText.equals(expectedText) ? actualText : null; // Return actualText if it matches
+        });
     }
 }
