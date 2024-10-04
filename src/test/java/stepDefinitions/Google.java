@@ -7,10 +7,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjects.GooglePage;
 import utilities.BrowserUtils;
-
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 
 public class Google {
@@ -19,8 +16,6 @@ public class Google {
     GooglePage googlepage;
     BrowserUtils browserUtils;
 
-    TestData testData = new TestData("path/to/testdata.xlsx", "SheetName");
-    List<Map<String, String>> scenarioData = testData.getTestData();        
 
     public Google(){
         testContext = TestContext.getInstance();
